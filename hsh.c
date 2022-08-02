@@ -74,6 +74,7 @@ int main(int argc, char **argv, char **env)
 	char **paths, **args, *input = NULL, *exec_path;
 	size_t len = 0;
 
+	(void) argc;
 	paths = init(env, pcp);		/* save paths in variable */
 	while (interactive)
 	{

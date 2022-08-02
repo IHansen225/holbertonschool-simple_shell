@@ -108,7 +108,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp)
  */
 char **args_isolator(char *input, int *arc)
 {
-	int a = 0, i, j = 0, k = 0, ac = 1;
+	int i, j = 0, ac = 1;
 	char **args, *ps;
 
 	for (i = 0; input[i]; i++)
@@ -132,8 +132,7 @@ char **args_isolator(char *input, int *arc)
  */
 void env_reader(char **env)
 {
-	int i = 0, j = 0, flag = 0;
-	char *c_env = "env";
+	int i = 0, j = 0;
 
 	for (i = 0; env[i]; i++)
 	{
