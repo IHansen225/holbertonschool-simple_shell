@@ -105,7 +105,6 @@ int main(int argc, char **argv, char **env)
 		if (exec_path)
 			function_caller(exec_path, args, env), free(exec_path);	/* execute program */
 		free(args);
-		free
 	}
 	for (x = 0; x < *pcp; x++)
 		free(paths[x]);
