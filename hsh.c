@@ -86,7 +86,7 @@ int main(int argc, char **argv, char **env)
 			write(1, "\n", 1), free(input);
 			break;
 		}
-		if (input[0] == '\n')
+		if (input[0] == '\n' || input[0] == ' ')
 			continue;
 		for (i = 0; input[i]; i++)
 			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */
@@ -105,6 +105,7 @@ int main(int argc, char **argv, char **env)
 		if (exec_path)
 			function_caller(exec_path, args, env), free(exec_path);	/* execute program */
 		free(args);
+		free
 	}
 	for (x = 0; x < *pcp; x++)
 		free(paths[x]);
