@@ -8,7 +8,7 @@
  *
  * Return: Always the pid process.
  */
-int function_caller(char *path, char *args[])
+int function_caller(char *path, char *args[], char **env)
 {
 	pid_t pid;
 	int child_status;
@@ -19,7 +19,7 @@ int function_caller(char *path, char *args[])
 	else if (pid > 0) /* parent process */
 		waitpid(pid, &child_status, 0);
 	else    /* child process */
-		execve(path, args, NULL), close(0);
+		execve(path, args, env), close(0);
 	return (pid);
 }
 /**
