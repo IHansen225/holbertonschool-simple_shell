@@ -36,22 +36,24 @@ char *dir_generator(char *s1, char *s2)
 	char *newstr;
 
 	i = j = len1 = len2 = 0;
-	while(s1[len1++] != '\0');;
-	while(s2[len2++] != '\0');;
+	while (s1[len1++] != '\0')
+		;
+	while (s2[len2++] != '\0')
+		;
 	newstr = malloc(len1 + len2 + 2);
 	if (newstr == NULL)
 		return (NULL);
-	while(s1[i] != '\0')
+	while (s1[i] != '\0')
 		newstr[i] = s1[i], i++;
 	newstr[i++] = '/';
-	while(s2[j] != '\0')
+	while (s2[j] != '\0')
 		newstr[i] = s2[j], i++, j++;
 	newstr[i++] = '\0';
 	return (newstr);
 }
 
 /**
- * function_caller - this function check if name
+ * check_existance - this function check if name
  * it's a valid command.
  * @paths: are the paths of the PATH variable.
  * @name: is the command.
@@ -68,7 +70,8 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp)
 
 	if (access(name, F_OK) == 0) /* if name it's a full path */
 	{
-		while(name[++i]);;
+		while (name[++i])
+			;
 		dir_buf = malloc(i + 1);
 		for (i = 0; name[i]; i++)
 			dir_buf[i] = name[i];
@@ -78,14 +81,15 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp)
 	while ((!flag) && (i < *pcp))
 	{
 		dir_buf = dir_generator(paths[i++], name);
-		flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* the flag change when it's a match */
+		flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* flag changes when match */
 		if (!flag)
 			free(dir_buf); /* free the memory if not a match */
 	}
 	if (!flag) /* if flag it's zero, the command was not valid */
 	{
 		i = 0;
-		while (programname[i++]);;
+		while (programname[i++])
+			;
 		write(1, programname, i), write(1, ": No such file or directory\n", 28);
 		return (NULL);
 	}
@@ -111,7 +115,7 @@ char **args_isolator(char *input, int *arc)
 		ac = ((input[i] == ' ') ? ac + 1 : ac); /*number of arguments*/
 	args = malloc(sizeof(char *) * (ac + 1));
 	if (!args)
-		return(NULL);
+		return (NULL);
 	ps = strtok(input, " "); /* token input */
 	while (ps)
 		args[j++] = ps, ps = strtok(NULL, " "); /* copy */
@@ -126,14 +130,16 @@ char **args_isolator(char *input, int *arc)
  *
  * Return: always void.
  */
-void env_reader (char **env)
+void env_reader(char **env)
 {
 	int i = 0, j = 0, flag = 0;
 	char *c_env = "env";
 
-	for(i = 0; env[i]; i++)
+	for (i = 0; env[i]; i++)
 	{
-		for(j = 0; env[i][j]; j++);;
-		write(1, env[i], j + 1), write(1, "\n", 1);
+		for (j = 0; env[i][j]; j++)
+			;
+		write(1, env[i], j + 1);
+		write(1, "\n", 1);
 	}
 }
