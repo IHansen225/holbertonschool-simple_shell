@@ -82,6 +82,7 @@ int main(int argc, char **argv, char **env)
 	int i, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
 	char **paths, **args, *input = NULL, *exec_path;
 	size_t len = 0;
+	extern char **environ;
 
 	(void) argc;
 	paths = init(env, pcp);		/* save paths in variable */
@@ -107,7 +108,7 @@ int main(int argc, char **argv, char **env)
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
-			env_reader(env);
+			env_reader(environ);
 			free(input);
 			continue;
 		}

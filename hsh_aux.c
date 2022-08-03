@@ -144,15 +144,15 @@ char **args_isolator(char *input, int *arc)
  *
  * Return: always void.
  */
-void env_reader(char **env)
+void env_reader(char **environ)
 {
 	int i = 0, j = 0;
 
-	for (i = 0; env[i]; i++)
+	for (i = 0; environ[i]; i++)
 	{
-		for (j = 0; env[i][j]; j++)
+		for (j = 0; environ[i][j]; j++)
 			;
-		write(1, env[i], j + 1);
+		write(1, environ[i], j + 1);
 		write(1, "\n", 1);
 	}
 }
