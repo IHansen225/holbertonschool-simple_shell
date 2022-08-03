@@ -81,7 +81,7 @@ void free_exit(char **paths, int *pcp)
 
 int main(int argc, char **argv, char **env)
 {
-	int i, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
+	int i, aux_exit = 0, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
 	char **paths, **args, *input = NULL, *exec_path;
 	size_t len = 0;
 
@@ -105,7 +105,7 @@ int main(int argc, char **argv, char **env)
 		{
 			free(input);
 			free_exit(paths, pcp);
-			exit(0);
+			exit (aux_exit);
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
@@ -121,7 +121,12 @@ int main(int argc, char **argv, char **env)
 		}
 		exec_path = check_existance(paths, args[0], argv[0], pcp);
 		if (exec_path)
+		{
 			function_caller(exec_path, args, env), free(exec_path);	/* execute program */
+			aux_exit = 0;
+		}
+		else
+			aux_exit = 2;
 		free(args);
 		free(input);
 	}
