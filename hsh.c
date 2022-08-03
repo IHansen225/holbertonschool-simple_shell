@@ -68,9 +68,18 @@ char **init(char **env, int *pcp)
  * Return: always 0
  */
 
+void free_exit(char **paths, int *pcp)
+{
+	int x = 0;
+
+	for (x = 0; x < *pcp; x++)
+		free(paths[x]);
+	free(paths);
+}
+
 int main(int argc, char **argv, char **env)
 {
-	int x, i, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
+	int i, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
 	char **paths, **args, *input = NULL, *exec_path;
 	size_t len = 0;
 
@@ -93,6 +102,7 @@ int main(int argc, char **argv, char **env)
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
 			free(input);
+			free_exit(paths, pcp);
 			exit(2);
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
@@ -113,8 +123,6 @@ int main(int argc, char **argv, char **env)
 		free(args);
 		free(input);
 	}
-	for (x = 0; x < *pcp; x++)
-		free(paths[x]);
-	free(paths);
+	free_exit(paths, pcp);
 	return (0);
 }
