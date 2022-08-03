@@ -105,7 +105,7 @@ int main(int argc, char **argv, char **env)
 		{
 			free(input);
 			free_exit(paths, pcp);
-			exit (aux_exit);
+			return (aux_exit);
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
@@ -127,6 +127,7 @@ int main(int argc, char **argv, char **env)
 		}
 		else
 			aux_exit = 2;
+		printf("aux %d", aux_exit);
 		free(args);
 		free(input);
 	}
