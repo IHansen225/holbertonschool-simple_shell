@@ -146,13 +146,14 @@ char **args_isolator(char *input, int *arc)
  */
 void env_reader(char **env)
 {
-	int i = 0, j = 0;
+	int i = 0 /*j = 0*/;
 
 	for (i = 0; env[i]; i++)
 	{
-		for (j = 0; env[i][j]; j++)
-			;
-		write(1, env[i], j + 1);
-		write(1, "\n", 1);
+		printf("%s\n", env[i]);
+		/*for (j = 0; env[i][j]; j++)*/
+		/*	;*/
+		/*write(1, env[i], j + 1);*/
+		/*write(1, "\n", 1);*/
 	}
 }
