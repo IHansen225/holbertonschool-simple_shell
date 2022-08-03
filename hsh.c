@@ -93,7 +93,7 @@ int main(int argc, char **argv, char **env)
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
 			free(input);
-			break;
+			exit(2);
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
