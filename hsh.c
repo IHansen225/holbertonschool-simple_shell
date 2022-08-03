@@ -103,7 +103,10 @@ int main(int argc, char **argv, char **env)
 		}
 		args = args_isolator(input, acp);	/* tokenize arguments to array */
 		if (!args)
+		{
+			free(input);
 			continue;
+		}
 		exec_path = check_existance(paths, args[0], argv[0], pcp);
 		if (exec_path)
 			function_caller(exec_path, args, env), free(exec_path);	/* execute program */
