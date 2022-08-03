@@ -86,7 +86,7 @@ int main(int argc, char **argv, char **env)
 			write(1, "\n", 1), free(input);
 			break;
 		}
-		if (input[0] == '\n' || input[0] == ' ')
+		if (input[0] == '\n' || _strcmp(input, " "))
 			continue;
 		for (i = 0; input[i]; i++)
 			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */

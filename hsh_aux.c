@@ -112,13 +112,16 @@ char **args_isolator(char *input, int *arc)
 	char **args, *ps;
 
 	for (i = 0; input[i]; i++)
-		ac = ((input[i] == ' ') ? ac + 1 : ac); /*number of arguments*/
+	{
+		if (input[i] == ' ') /*number of arguments*/
+			ac++;
+	}
 	args = malloc(sizeof(char *) * (ac + 1));
 	if (!args)
 		return (NULL);
-	ps = strtok(input, " "); /* token input */
+	ps = strtok(input, " 	"); /* token input */
 	while (ps)
-		args[j++] = ps, ps = strtok(NULL, " "); /* copy */
+		args[j++] = ps, ps = strtok(NULL, " 	"); /* copy */
 	args[j++] = ps;                             /* the arguments */
 	*arc = ac;
 	return (args); /*the final array */
