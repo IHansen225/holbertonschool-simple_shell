@@ -90,7 +90,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp)
 		i = 0;
 		while (programname[i++])
 			;
-		write(1, programname, i), write(1, ": No such file or directory\n", 28);
+		write(2, programname, i), write(2, ": No such file or directory\n", 28);
 		return (NULL);
 	}
 	else
