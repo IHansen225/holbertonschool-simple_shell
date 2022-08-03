@@ -100,12 +100,12 @@ int main(int argc, char **argv, char **env)
 		if (input[0] == '\n')
 			continue;
 		for (i = 0; input[i]; i++)
-			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */
+			input[i] = ((input[i] == '\n') ? ' ' : input[i]);		/* trim trailing '\n' */
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
 			free(input);
 			free_exit(paths, pcp);
-			break;
+			exit(aux_exit);
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
@@ -127,11 +127,10 @@ int main(int argc, char **argv, char **env)
 		}
 		else
 			aux_exit = 2;
-		printf("aux %d", aux_exit);
 		free(args);
 		free(input);
 	}
 	if (paths)
 		free_exit(paths, pcp);
-	return (aux_exit);
+	return (0);
 }
