@@ -125,6 +125,7 @@ int main(int argc, char **argv, char **env)
 		free(args);
 		free(input);
 	}
-	free_exit(paths, pcp);
+	if (!paths)
+		free_exit(paths, pcp);
 	return (0);
 }
