@@ -39,7 +39,7 @@ char **init(char **env, int *pcp)
 			}
 		}
 		if (!p_found)
-			return (NULL;)
+			return (NULL);
 		for (j = 5; env[i][j]; j++)
 			pc = ((env[i][j] == ':') ? pc + 1 : pc); /* number of directories */
 		p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
