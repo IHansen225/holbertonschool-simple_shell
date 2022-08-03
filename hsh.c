@@ -103,7 +103,7 @@ int main(int argc, char **argv, char **env)
 		{
 			free(input);
 			free_exit(paths, pcp);
-			exit(2);
+			exit(0);
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
