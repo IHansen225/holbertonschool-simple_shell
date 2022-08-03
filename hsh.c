@@ -26,7 +26,7 @@ int _strcmp(char *s1, char *s2)
 char **init(char **env, int *pcp)
 {
 		int i = 0, j = 0, k = 0, p_found = 0, pc = 0, a = 0, cc = 0;
-		char *p = "PATH", **p_array = NULL, *ps;
+		char *p = "PATH", **p_array, *ps;
 
 		while (!p_found) /* find PATH inside of env */
 		{
@@ -38,8 +38,6 @@ char **init(char **env, int *pcp)
 				p_found = (((p[j] == env[i][j]) && (p[j + 1] == '\0')) ? 1 : 0);
 			}
 		}
-		if (!p_found)
-			return (p_array);
 		for (j = 5; env[i][j]; j++)
 			pc = ((env[i][j] == ':') ? pc + 1 : pc); /* number of directories */
 		p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
@@ -88,7 +86,7 @@ int main(int argc, char **argv, char **env)
 			write(1, "\n", 1), free(input);
 			break;
 		}
-		if (input[0] == '\n' || input[0] == ' ')
+		if (input[0] == '\n')
 			continue;
 		for (i = 0; input[i]; i++)
 			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */
@@ -104,6 +102,8 @@ int main(int argc, char **argv, char **env)
 			continue;
 		}
 		args = args_isolator(input, acp);	/* tokenize arguments to array */
+		if (!args)
+			continue;
 		exec_path = check_existance(paths, args[0], argv[0], pcp);
 		if (exec_path)
 			function_caller(exec_path, args, env), free(exec_path);	/* execute program */

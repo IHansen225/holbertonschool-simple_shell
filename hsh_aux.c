@@ -90,7 +90,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp)
 		i = 0;
 		while (programname[i++])
 			;
-		write(2, programname, i), write(2, ": No such file or directory\n", 28);
+		write(1, programname, i), write(1, ": No such file or directory\n", 28);
 		return (NULL);
 	}
 	else
@@ -108,9 +108,23 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp)
  */
 char **args_isolator(char *input, int *arc)
 {
-	int i, j = 0, ac = 1;
+	int i, j = 0, ac = 1, only_spaces = 0;
 	char **args, *ps;
 
+	for (i = 0; input[i]; i++)
+    	{
+		if (input[i] == ' ')
+		{
+			if (input[i + 1] == '\0')
+				only_spaces = 1;
+			else
+                		continue;
+		}
+		else
+			break;
+	}	
+	if (only_spaces)
+		return (NULL);
 	for (i = 0; input[i]; i++)
 		ac = ((input[i] == ' ') ? ac + 1 : ac); /*number of arguments*/
 	args = malloc(sizeof(char *) * (ac + 1));
