@@ -100,7 +100,7 @@ int main(int argc, char **argv, char **env)
 		if (input[0] == '\n')
 			continue;
 		for (i = 0; input[i]; i++)
-			input[i] = ((input[i] == '\n') ? ' ' : input[i]);		/* trim trailing '\n' */
+			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
 			free(input);
@@ -110,7 +110,6 @@ int main(int argc, char **argv, char **env)
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
 			env_reader(env);
-			free(input);
 			continue;
 		}
 		args = args_isolator(input, acp);	/* tokenize arguments to array */
