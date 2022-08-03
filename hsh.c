@@ -38,6 +38,8 @@ char **init(char **env, int *pcp)
 				p_found = (((p[j] == env[i][j]) && (p[j + 1] == '\0')) ? 1 : 0);
 			}
 		}
+		if (!p_found)
+			return (NULL;)
 		for (j = 5; env[i][j]; j++)
 			pc = ((env[i][j] == ':') ? pc + 1 : pc); /* number of directories */
 		p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
@@ -82,7 +84,6 @@ int main(int argc, char **argv, char **env)
 	int i, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
 	char **paths, **args, *input = NULL, *exec_path;
 	size_t len = 0;
-	extern char **environ;
 
 	(void) argc;
 	paths = init(env, pcp);		/* save paths in variable */
@@ -108,7 +109,7 @@ int main(int argc, char **argv, char **env)
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
-			env_reader(environ);
+			env_reader(env);
 			free(input);
 			continue;
 		}
