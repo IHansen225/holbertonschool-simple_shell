@@ -119,6 +119,7 @@ int main(int argc, char **argv)
 		if (!args[0])
 		{
 			free(args);
+			free(input);
 			continue;
 		}
 		exec_path = check_existance(paths, args[0], argv[0], pcp);
