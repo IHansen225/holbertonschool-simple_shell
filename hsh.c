@@ -133,5 +133,5 @@ int main(int argc, char **argv)
 	}
 	if (paths)
 		free_exit(paths, pcp);
-	return (aux_exit);
+	exit (aux_exit);
 }
