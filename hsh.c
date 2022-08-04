@@ -25,25 +25,23 @@ int _strcmp(char *s1, char *s2)
  */
 char **init(int *pcp)
 {
-		int i = 0, j = 0, k = 0, p_found = 0, pc = 0, a = 0, cc = 0;
+		int i = -1, j = 0, k = 0, p_found = 0, pc = 0, a = 0, cc = 0;
 		char *p = "PATH", **p_array, *ps;
 		extern char **environ;
 
 		while (!p_found) /* find PATH inside of env */
 		{
+			i++;
 			for (j = 0; p[j]; j++)
 			{
 				if (p[j] != environ[i][j])
 					break;
-				p_found = (((p[j] == environ[i][j]) && (p[j + 1] == '\0')) ? 1 : 0);
+				p_found = ((p[j + 1] == '\0') ? 1 : 0);
 			}
-			i++;
 		}
 		if (!p_found)
 			return (NULL);
-		else
-		{
-			for (j = 5; environ[i][j]; j++)
+		for (j = 5; environ[i][j]; j++)
 				pc = ((environ[i][j] == ':') ? pc + 1 : pc); /* number of directories */
 			p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
 			if (!p_array)
@@ -59,7 +57,6 @@ char **init(int *pcp)
 					ps[k] = '\0', p_array[pc++] = ps, j++, a++, cc = 0;
 				}
 			}
-		}
 		*pcp = pc; /* number of directories */
 		return (p_array); /* the final array */
 }
