@@ -87,7 +87,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
         }
         if (!flag) /* if flag it's zero, the command was not valid */
         {
-                i = 0, *stat = 2;
+                i = 0, *stat = 127;
                 while (programname[i++])
                         ;
                 write(2, programname, i);
