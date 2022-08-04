@@ -8,7 +8,7 @@
  *
  * Return: Always the pid process.
  */
-int function_caller(char *path, char *args[])
+int function_caller(char *path, char *args[], int *stat)
 {
 	pid_t pid;
 	extern char **environ;
@@ -16,7 +16,10 @@ int function_caller(char *path, char *args[])
 
 	pid = fork();
 	if (pid == -1)
+	{
+		*stat = 2;
 		perror("Fork failed");
+	}
 	else if (pid > 0) /* parent process */
 		waitpid(pid, &child_status, 0);
 	else    /* child process */
@@ -91,7 +94,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
                 while (programname[i++])
                         ;
                 write(2, programname, i);
-                write(2, " 1: ", 4);
+                write(2, ": 1: ", 5);
 		while (name[j++])
                         ;
 		write(2, name, j);

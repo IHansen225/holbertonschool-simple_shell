@@ -109,9 +109,9 @@ int main(int argc, char **argv)
 			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
-			free(input);
+			/*free(input);*/
 			free_exit(paths, pcp);
-			exit(aux_exit);
+			exit(*stat);
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
                 }
 		exec_path = check_existance(paths, args[0], argv[0], pcp, stat);
                 if (exec_path)
-                        function_caller(exec_path, args), free(exec_path);
+                        function_caller(exec_path, args, stat), free(exec_path);
                 free(args);
 		free(input);
 	}
