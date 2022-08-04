@@ -41,20 +41,23 @@ char **init(int *pcp)
 		}
 		if (!p_found)
 			return (NULL);
-		for (j = 5; environ[i][j]; j++)
-			pc = ((environ[i][j] == ':') ? pc + 1 : pc); /* number of directories */
-		p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
-		if (!p_array)
-			return (NULL);
-		for (j = 5; environ[i][j]; j++)
+		else
 		{
-			cc++;
-			if ((environ[i][j + 1]) && (environ[i][j + 1] == ':'))
+			for (j = 5; environ[i][j]; j++)
+				pc = ((environ[i][j] == ':') ? pc + 1 : pc); /* number of directories */
+			p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
+			if (!p_array)
+				return (NULL);
+			for (j = 5; environ[i][j]; j++)
 			{
-				ps = malloc(cc + 1), k = 0;
-				for (; a <= j; a++)
-					ps[k++] = environ[i][a]; /* copy the directories */
-				ps[k] = '\0', p_array[pc++] = ps, j++, a++, cc = 0;
+				cc++;
+				if ((environ[i][j + 1]) && (environ[i][j + 1] == ':'))
+				{
+					ps = malloc(cc + 1), k = 0;
+					for (; a <= j; a++)
+						ps[k++] = environ[i][a]; /* copy the directories */
+					ps[k] = '\0', p_array[pc++] = ps, j++, a++, cc = 0;
+				}
 			}
 		}
 		*pcp = pc; /* number of directories */
