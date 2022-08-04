@@ -90,6 +90,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
                 i = 0, *stat = 127;
                 while (programname[i++])
                         ;
+		i--;
                 write(2, programname, i);
                 write(2, ": 1: ", 5);
 		while (name[j++])
@@ -97,7 +98,8 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
 		write(2, name, j);
                 write(2, ": not found", 11); /* cambiar por 11 */
 		write(2, "\n", 1);
-                return (NULL);
+		printf("total %d\n", (i + 5 + 11 + j));
+		return (NULL);
         }
         else
                 return (dir_buf);
