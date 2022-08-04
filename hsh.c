@@ -23,36 +23,37 @@ int _strcmp(char *s1, char *s2)
  * Return: an array of string with the differents directories,
  * or NULL if fall.
  */
-char **init(char **env, int *pcp)
+char **init(int *pcp)
 {
 		int i = 0, j = 0, k = 0, p_found = 0, pc = 0, a = 0, cc = 0;
 		char *p = "PATH", **p_array, *ps;
+		extern char **environ;
 
 		while (!p_found) /* find PATH inside of env */
 		{
 			i++;
 			for (j = 0; p[j]; j++)
 			{
-				if (p[j] != env[i][j])
+				if (p[j] != environ[i][j])
 					break;
-				p_found = (((p[j] == env[i][j]) && (p[j + 1] == '\0')) ? 1 : 0);
+				p_found = (((p[j] == environ[i][j]) && (p[j + 1] == '\0')) ? 1 : 0);
 			}
 		}
 		if (!p_found)
 			return (NULL);
-		for (j = 5; env[i][j]; j++)
-			pc = ((env[i][j] == ':') ? pc + 1 : pc); /* number of directories */
+		for (j = 5; environ[i][j]; j++)
+			pc = ((environ[i][j] == ':') ? pc + 1 : pc); /* number of directories */
 		p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
 		if (!p_array)
 			return (NULL);
-		for (j = 5; env[i][j]; j++)
+		for (j = 5; environ[i][j]; j++)
 		{
 			cc++;
-			if ((env[i][j + 1]) && (env[i][j + 1] == ':'))
+			if ((environ[i][j + 1]) && (environ[i][j + 1] == ':'))
 			{
 				ps = malloc(cc + 1), k = 0;
 				for (; a <= j; a++)
-					ps[k++] = env[i][a]; /* copy the directories */
+					ps[k++] = environ[i][a]; /* copy the directories */
 				ps[k] = '\0', p_array[pc++] = ps, j++, a++, cc = 0;
 			}
 		}
@@ -79,14 +80,15 @@ void free_exit(char **paths, int *pcp)
 	free(paths);
 }
 
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv)
 {
 	int i, aux_exit = 0, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
 	char **paths, **args, *input = NULL, *exec_path;
 	size_t len = 0;
+	extern char **environ;
 
 	(void) argc;
-	paths = init(env, pcp);		/* save paths in variable */
+	paths = init(pcp);		/* save paths in variable */
 	while (interactive)
 	{
 		interactive = isatty(0);	/* check for interactive mode */
@@ -109,20 +111,20 @@ int main(int argc, char **argv, char **env)
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
-			env_reader(env);
+			env_reader();
 			free(input);
 			continue;
 		}
 		args = args_isolator(input, acp);	/* tokenize arguments to array */
-		if (!args)
+		if (!args[0])
 		{
-			free(input);
+			free(args);
 			continue;
 		}
 		exec_path = check_existance(paths, args[0], argv[0], pcp);
 		if (exec_path)
 		{
-			function_caller(exec_path, args, env), free(exec_path);	/* execute program */
+			function_caller(exec_path, args), free(exec_path);	/* execute program */
 			aux_exit = 0;
 		}
 		else

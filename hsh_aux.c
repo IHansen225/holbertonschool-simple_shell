@@ -8,9 +8,10 @@
  *
  * Return: Always the pid process.
  */
-int function_caller(char *path, char *args[], char **env)
+int function_caller(char *path, char *args[])
 {
 	pid_t pid;
+	extern char **environ;
 	int child_status;
 
 	pid = fork();
@@ -19,7 +20,7 @@ int function_caller(char *path, char *args[], char **env)
 	else if (pid > 0) /* parent process */
 		waitpid(pid, &child_status, 0);
 	else    /* child process */
-		execve(path, args, env), close(0);
+		execve(path, args, environ), close(0);
 	return (pid);
 }
 /**
@@ -108,23 +109,9 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp)
  */
 char **args_isolator(char *input, int *arc)
 {
-	int i, j = 0, ac = 1, only_spaces = 0;
+	int i, j = 0, ac = 1;
 	char **args, *ps;
 
-	for (i = 0; input[i]; i++)
-    	{
-		if (input[i] == ' ')
-		{
-			if (input[i + 1] == '\0')
-				only_spaces = 1;
-			else
-                		continue;
-		}
-		else
-			break;
-	}	
-	if (only_spaces)
-		return (NULL);
 	for (i = 0; input[i]; i++)
 		ac = ((input[i] == ' ') ? ac + 1 : ac); /*number of arguments*/
 	args = malloc(sizeof(char *) * (ac + 1));
@@ -144,16 +131,16 @@ char **args_isolator(char *input, int *arc)
  *
  * Return: always void.
  */
-void env_reader(char **env)
+void env_reader(void)
 {
-	int i = 0 /*j = 0*/;
+	int i = 0, j = 0;
+	extern char **environ;
 
-	for (i = 0; env[i]; i++)
+	for (i = 0; environ[i]; i++)
 	{
-		printf("%s\n", env[i]);
-		/*for (j = 0; env[i][j]; j++)*/
-		/*	;*/
-		/*write(1, env[i], j + 1);*/
-		/*write(1, "\n", 1);*/
+		for (j = 0; environ[i][j]; j++)
+			;
+		write(1, environ[i], j + 1);
+		write(1, "\n", 1);
 	}
 }
