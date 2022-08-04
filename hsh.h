@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <stdbool.h>
+#include <errno.h>
 
 void env_reader(void);
 char **args_isolator(char *input, int *arc);

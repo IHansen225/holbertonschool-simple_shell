@@ -16,14 +16,15 @@ int function_caller(char *path, char *args[], int *stat)
 
 	pid = fork();
 	if (pid == -1)
-	{
-		*stat = 2;
 		perror("Fork failed");
-	}
 	else if (pid > 0) /* parent process */
 		waitpid(pid, &child_status, 0);
 	else    /* child process */
+	{
 		execve(path, args, environ), close(0);
+		if (execve(path, args, environ) == -1)
+			*stat = 2;
+	}
 	return (pid);
 }
 /**
