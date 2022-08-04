@@ -18,7 +18,10 @@ int function_caller(char *path, char *args[])
 	if (pid == -1)
 		perror("Error:");
 	else if (pid > 0) /* parent process */
+	{
 		waitpid(pid, &child_status, 0);
+		WEXITSTATUS(pid);
+	}
 	else    /* child process */
 		execve(path, args, environ), close(0);
 	return (pid);
@@ -95,10 +98,10 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
                 write(2, ": 1: ", 5);
 		while (name[j++])
                         ;
+		j--;
 		write(2, name, j);
                 write(2, ": not found", 11); /* cambiar por 11 */
 		write(2, "\n", 1);
-		printf("total %d\n", (i + 5 + 11 + j));
 		return (NULL);
         }
         else
