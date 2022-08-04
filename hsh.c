@@ -79,7 +79,10 @@ void free_exit(char **paths, int *pcp)
 	int x = 0;
 
 	for (x = 0; x < *pcp; x++)
+	{
+		if (paths[x])
 		free(paths[x]);
+	}
 	free(paths);
 }
 
