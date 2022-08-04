@@ -64,38 +64,39 @@ char *dir_generator(char *s1, char *s2)
  * Return: a string with the full command path, or NULL
  * if name it's a invalid command.
  */
-char *check_existance(char *paths[], char *name, char *programname, int *pcp)
+char *check_existance(char *paths[], char *name, char *programname, int *pcp, int *stat)
 {
-	char *dir_buf = NULL;
-	int flag = 0, i = 0;
-
-	if (access(name, F_OK) == 0) /* if name it's a full path */
-	{
-		while (name[++i])
-			;
-		dir_buf = malloc(i + 1);
-		for (i = 0; name[i]; i++)
-			dir_buf[i] = name[i];
-		dir_buf[i] = '\0';
-		return (dir_buf);
-	}
-	while ((!flag) && (i < *pcp))
-	{
-		dir_buf = dir_generator(paths[i++], name);
-		flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* flag changes when match */
-		if (!flag)
-			free(dir_buf); /* free the memory if not a match */
-	}
-	if (!flag) /* if flag it's zero, the command was not valid */
-	{
-		i = 0;
-		while (programname[i++])
-			;
-		write(2, programname, i), write(2, ": No such file or directory\n", 28);
-		return (NULL);
-	}
-	else
-		return (dir_buf);
+        char *dir_buf = NULL;
+        int flag = 0, i = 0;
+        if (access(name, F_OK) == 0) /* if name it's a full path */
+        {
+                while (name[++i])
+                        ;
+                dir_buf = malloc(i + 1);
+                for (i = 0; name[i]; i++)
+                        dir_buf[i] = name[i];
+                dir_buf[i] = '\0';
+                return (dir_buf);
+        }
+        while ((!flag) && (i < *pcp))
+        {
+                dir_buf = dir_generator(paths[i++], name);
+                flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* flag changes when match */
+                if (!flag)
+                        free(dir_buf); /* free the memory if not a match */
+        }
+        if (!flag) /* if flag it's zero, the command was not valid */
+        {
+                i = 0, *stat = 2;
+                while (programname[i++])
+                        ;
+                write(2, programname, i);
+                write(2, " 1: ", 4);
+                write(2, ": not found\n", 11);
+                return (NULL);
+        }
+        else
+                return (dir_buf);
 }
 
 /**

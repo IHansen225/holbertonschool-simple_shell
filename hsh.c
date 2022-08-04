@@ -85,7 +85,7 @@ void free_exit(char **paths, int *pcp)
 
 int main(int argc, char **argv)
 {
-	int i, aux_exit = 0, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
+	int i, aux_exit = 0, *stat = &aux_exit, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
 	char **paths, **args, *input = NULL, *exec_path;
 	size_t len = 0;
 	extern char **environ;
@@ -118,28 +118,20 @@ int main(int argc, char **argv)
 			free(input);
 			continue;
 		}
-		args = args_isolator(input, acp);	/* tokenize arguments to array */
-		if (!args[0])
-		{
-			free(args);
-			free(input);
-			continue;
-		}
-		if (paths)
-		{
-			exec_path = check_existance(paths, args[0], argv[0], pcp);
-			if (exec_path)
-			{
-				function_caller(exec_path, args), free(exec_path);	/* execute program */
-				aux_exit = 0;
-			}
-			else
-				aux_exit = 2;
-		}
-		free(args);
+		args = args_isolator(input, acp);       /* tokenize arguments to array */
+                if (!args[0])
+                {
+                        free(args);
+                        free(input);
+                        continue;
+                }
+		exec_path = check_existance(paths, args[0], argv[0], pcp, stat);
+                if (exec_path)
+                        function_caller(exec_path, args), free(exec_path);
+                free(args);
 		free(input);
 	}
 	if (paths)
 		free_exit(paths, pcp);
-	return (0);
+	return (aux_exit);
 }
