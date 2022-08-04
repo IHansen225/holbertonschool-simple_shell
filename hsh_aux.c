@@ -67,7 +67,7 @@ char *dir_generator(char *s1, char *s2)
 char *check_existance(char *paths[], char *name, char *programname, int *pcp, int *stat)
 {
         char *dir_buf = NULL;
-        int flag = 0, i = 0;
+        int flag = 0, i = 0, j = 0;
         if (access(name, F_OK) == 0) /* if name it's a full path */
         {
                 while (name[++i])
@@ -92,6 +92,9 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
                         ;
                 write(2, programname, i);
                 write(2, " 1: ", 4);
+		while (name[j++])
+                        ;
+		write(2, name, j);
                 write(2, ": not found\n", 11);
                 return (NULL);
         }
