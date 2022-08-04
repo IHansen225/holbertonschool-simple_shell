@@ -109,7 +109,7 @@ int main(int argc, char **argv)
 			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
-			/*free(input);*/
+			free(input);
 			free_exit(paths, pcp);
 			exit(*stat);
 		}
