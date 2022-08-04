@@ -12,7 +12,7 @@ int function_caller(char *path, char *args[])
 {
 	pid_t pid;
 	extern char **environ;
-	int child_status;
+	int child_status, aux_exit = 0;
 
 	pid = fork();
 	if (pid == -1)
@@ -20,11 +20,11 @@ int function_caller(char *path, char *args[])
 	else if (pid > 0) /* parent process */
 	{
 		waitpid(pid, &child_status, 0);
-		WEXITSTATUS(pid);
+		aux_exit = WEXITSTATUS(child_status);
 	}
 	else    /* child process */
 		execve(path, args, environ), close(0);
-	return (pid);
+	return (aux_exit);
 }
 /**
  * dir_generator - this function make a new string linking

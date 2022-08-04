@@ -116,8 +116,7 @@ int main(int argc, char **argv)
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
 			free(input);
-			free_exit(paths, pcp);
-			exit(*stat);
+			break;
 		}
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
@@ -134,7 +133,7 @@ int main(int argc, char **argv)
                 }
 		exec_path = check_existance(paths, args[0], argv[0], pcp, stat);
                 if (exec_path)
-			function_caller(exec_path, args), free(exec_path);
+			aux_exit = function_caller(exec_path, args), free(exec_path);
                 free(args);
 		free(input);
 	}
