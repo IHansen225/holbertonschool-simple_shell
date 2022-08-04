@@ -106,7 +106,8 @@ int main(int argc, char **argv)
 		if (input[0] == '\n')
 			continue;
 		for (i = 0; input[i]; i++)
-			input[i] = ((input[i] == '\n') ? '\0' : input[i]);		/* trim trailing '\n' */
+			;/*input[i] = ((input[i] == '\n') ? '\0' : input[i]);*/		/* trim trailing '\n' */
+		input[i - 1] = '\0'; /* coloco NULL en el final */
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
 			free(input);
@@ -128,7 +129,7 @@ int main(int argc, char **argv)
                 }
 		exec_path = check_existance(paths, args[0], argv[0], pcp, stat);
                 if (exec_path)
-                        function_caller(exec_path, args), free(exec_path);
+			function_caller(exec_path, args), free(exec_path);
                 free(args);
 		free(input);
 	}

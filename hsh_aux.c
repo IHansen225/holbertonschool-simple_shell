@@ -16,7 +16,10 @@ int function_caller(char *path, char *args[])
 
 	pid = fork();
 	if (pid == -1)
-		perror("Fork failed");
+	{
+		perror("Error:");
+		exit(2);
+	}
 	else if (pid > 0) /* parent process */
 		waitpid(pid, &child_status, 0);
 	else    /* child process */
@@ -95,7 +98,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
 		while (name[j++])
                         ;
 		write(2, name, j);
-                write(2, ": not found\n", 11);
+                write(2, ": not found\n", 12);
                 return (NULL);
         }
         else
