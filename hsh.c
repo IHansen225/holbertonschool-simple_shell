@@ -126,9 +126,9 @@ int main(int argc, char **argv)
                         free(input);
                         continue;
                 }
-		exec_path = check_existance(paths, args[0], argv[0], pcp);
+		exec_path = check_existance(paths, args[0], argv[0], pcp, stat);
                 if (exec_path)
-                        function_caller(exec_path, args, stat), free(exec_path);
+                        function_caller(exec_path, args), free(exec_path);
                 free(args);
 		free(input);
 	}
