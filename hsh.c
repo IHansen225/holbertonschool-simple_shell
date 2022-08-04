@@ -31,13 +31,13 @@ char **init(int *pcp)
 
 		while (!p_found) /* find PATH inside of env */
 		{
-			i++;
 			for (j = 0; p[j]; j++)
 			{
 				if (p[j] != environ[i][j])
 					break;
 				p_found = (((p[j] == environ[i][j]) && (p[j + 1] == '\0')) ? 1 : 0);
 			}
+			i++;
 		}
 		if (!p_found)
 			return (NULL);
