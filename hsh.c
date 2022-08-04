@@ -118,6 +118,7 @@ int main(int argc, char **argv)
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
 			env_reader();
+			free(input);
 			continue;
 		}
 		args = args_isolator(input, acp);	/* tokenize arguments to array */
@@ -127,14 +128,17 @@ int main(int argc, char **argv)
 			free(input);
 			continue;
 		}
-		exec_path = check_existance(paths, args[0], argv[0], pcp);
-		if (exec_path)
+		if (paths)
 		{
-			function_caller(exec_path, args), free(exec_path);	/* execute program */
-			aux_exit = 0;
+			exec_path = check_existance(paths, args[0], argv[0], pcp);
+			if (exec_path)
+			{
+				function_caller(exec_path, args), free(exec_path);	/* execute program */
+				aux_exit = 0;
+			}
+			else
+				aux_exit = 2;
 		}
-		else
-			aux_exit = 2;
 		free(args);
 		free(input);
 	}
