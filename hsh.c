@@ -118,7 +118,6 @@ int main(int argc, char **argv)
 		if (_strcmp(input, "env") == 0)		/* check for env command */
 		{
 			env_reader();
-			free(input);
 			continue;
 		}
 		args = args_isolator(input, acp);	/* tokenize arguments to array */
