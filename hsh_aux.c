@@ -88,12 +88,12 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
         if (!flag) /* if flag it's zero, the command was not valid */
         {
                 i = 0, *stat = 127;
-                while (programname[i++])
-                        ;
+                while (programname[i + 1])
+                        i++;
                 write(2, programname, i);
                 write(2, ": 1: ", 5);
-		while (name[j++])
-                        ;
+		while (name[j + 1])
+                        j++;
 		write(2, name, j);
                 write(2, ": not found", 11); /* cambiar por 11 */
 		write(2, "\n", 1);

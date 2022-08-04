@@ -17,7 +17,6 @@ int _strcmp(char *s1, char *s2)
 
 /**
  * init - saves the directions of the variable PATH.
- * @env: is the array of pointers to the enviroment variables.
  * @pcp: is a pointer to the number
  *
  * Return: an array of string with the differents directories,
@@ -63,15 +62,13 @@ char **init(int *pcp)
 }
 
 /**
- * main - simple shell main function. Calls for execution in case of valid path
+ * free_exit - frees all the paths
  *
- * @argc: argument count
- * @argv: argument vector
- * @env: env variable array
+ * @paths: are the differents paths
+ * @pcp: is the number of paths.
  *
- * Return: always 0
+ * Return: always void.
  */
-
 void free_exit(char **paths, int *pcp)
 {
 	int x = 0;
@@ -79,11 +76,19 @@ void free_exit(char **paths, int *pcp)
 	for (x = 0; x < *pcp; x++)
 	{
 		if (paths[x])
-		free(paths[x]);
-	}
+			free(paths[x]);
+        }
 	free(paths);
 }
 
+/**
+ * main - simple shell main function. Calls for execution in case of valid path
+ *
+ * @argc: argument count
+ * @argv: argument vector
+ *
+ * Return: always 0
+ */
 int main(int argc, char **argv)
 {
 	int i, aux_exit = 0, *stat = &aux_exit, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
