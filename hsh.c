@@ -100,6 +100,7 @@ int b_ins(char *input)
 		free(input);
 		return (1);
 	}
+	return (2);
 }
 
 /**
