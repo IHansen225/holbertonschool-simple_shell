@@ -36,17 +36,17 @@ the following line:
 
 <h3>Auxiliary functions</h3>
 <hr>
-<p>- args_isolator: this function make an array of string with the user input.
-- check_existance: this function check if the user enter a valid command.
-- function_caller: this function executes the command entered by the user.
-- free_exit: this function frees all the paths.
+<p>- args_isolator: this function make an array of string with the user input. <br>
+- check_existance: this function check if the user enter a valid command. <br>
+- function_caller: this function executes the command entered by the user. <br>
+- free_exit: this function frees all the paths. <br>
 </p>
 
 <h3>Examples</h3>
 <hr>
-<img src="https://i.imgur.com/ZRfbghj.png">
-<img src="https://i.imgur.com/QiSWNnn.png">
-<img src="https://i.imgur.com/vOkoVGR.png">
+<img src="https://i.imgur.com/ZRfbghj.png" width="600px">
+<img src="https://i.imgur.com/QiSWNnn.png" width="600px">
+<img src="https://i.imgur.com/vOkoVGR.png" width="600px">
 
 <h3>Authors</h3>
 <hr>
