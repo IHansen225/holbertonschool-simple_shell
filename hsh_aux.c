@@ -11,7 +11,6 @@
 int function_caller(char *path, char *args[])
 {
 	pid_t pid;
-	extern char **environ;
 	int child_status, aux_exit = 0;
 
 	pid = fork();
@@ -63,49 +62,52 @@ char *dir_generator(char *s1, char *s2)
  * @name: is the command.
  * @programname: is the name of the program.
  * @pcp: it's a pointer to the path's number.
+ * @stat: is the stat of exit.
  *
  * Return: a string with the full command path, or NULL
  * if name it's a invalid command.
  */
 char *check_existance(char *paths[], char *name, char *programname, int *pcp, int *stat)
 {
-        char *dir_buf = NULL;
-        int flag = 0, i = 0, j = 0;
-        if (access(name, F_OK) == 0) /* if name it's a full path */
-        {
-                while (name[++i])
-                        ;
-                dir_buf = malloc(i + 1);
-                for (i = 0; name[i]; i++)
-                        dir_buf[i] = name[i];
-                dir_buf[i] = '\0';
-                return (dir_buf);
-        }
-        while ((!flag) && (i < *pcp))
-        {
-                dir_buf = dir_generator(paths[i++], name);
-                flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* flag changes when match */
-                if (!flag)
-                        free(dir_buf); /* free the memory if not a match */
-        }
-        if (!flag) /* if flag it's zero, the command was not valid */
-        {
-                i = 0, *stat = 127;
-                while (programname[i++])
-                        ;
+	char *dir_buf = NULL;
+	int flag = 0, i = 0, j = 0;
+
+	if (access(name, F_OK) == 0) /* if name it's a full path */
+	{
+		while (name[++i])
+			;
+		dir_buf = malloc(i + 1);
+		for (i = 0; name[i]; i++)
+			dir_buf[i] = name[i];
+		dir_buf[i] = '\0';
+		return (dir_buf);
+	}
+	while ((!flag) && (i < *pcp))
+	{
+		dir_buf = dir_generator(paths[i++], name);
+		flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* flag changes when match */
+		if (!flag)
+			free(dir_buf); /* free the memory if not a match */
+	}
+	if (!flag) /* if flag it's zero, the command was not valid */
+	{
+		i = 0;
+		*stat = 127;
+		while (programname[i++])
+			;
 		i--;
-                write(2, programname, i);
-                write(2, ": 1: ", 5);
+		write(2, programname, i);
+		write(2, ": 1: ", 5);
 		while (name[j++])
-                        ;
+			;
 		j--;
 		write(2, name, j);
-                write(2, ": not found", 11); /* cambiar por 11 */
+		write(2, ": not found", 11); /* cambiar por 11 */
 		write(2, "\n", 1);
 		return (NULL);
-        }
-        else
-                return (dir_buf);
+	}
+	else
+		return (dir_buf);
 }
 
 /**
@@ -137,14 +139,12 @@ char **args_isolator(char *input, int *arc)
 
 /**
  * env_reader - this function prints the enviroment variables.
- * @env: is the array of pointers to the enviroment variables.
  *
  * Return: always void.
  */
 void env_reader(void)
 {
 	int i = 0, j = 0;
-	extern char **environ;
 
 	for (i = 0; environ[i]; i++)
 	{

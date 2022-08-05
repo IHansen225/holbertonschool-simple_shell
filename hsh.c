@@ -24,41 +24,40 @@ int _strcmp(char *s1, char *s2)
  */
 char **init(int *pcp)
 {
-		int i = 0, j = 0, k = 0, p_found = 0, pc = 0, a = 0, cc = 0;
-		char *p = "PATH", **p_array, *ps;
-		extern char **environ;
+	int i = 0, j = 0, k = 0, p_found = 0, pc = 0, a = 0, cc = 0;
+	char *p = "PATH", **p_array, *ps;
 
-		while (!p_found && environ[i]) /* find PATH inside of env */
+	while (!p_found && environ[i]) /* find PATH inside of env */
+	{
+		for (j = 0; p[j]; j++)
 		{
-			for (j = 0; p[j]; j++)
-			{
-				if (p[j] != environ[i][j])
-					break;
-				p_found = ((p[j + 1] == '\0') ? 1 : 0);
-			}
-			i++;
+			if (p[j] != environ[i][j])
+				break;
+			p_found = ((p[j + 1] == '\0') ? 1 : 0);
 		}
-		i--;
-		if (!p_found)
-			return (NULL);
-		for (j = 5; environ[i][j]; j++)
-				pc = ((environ[i][j] == ':') ? pc + 1 : pc); /* number of directories */
-			p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
-			if (!p_array)
-				return (NULL);
-			for (j = 5; environ[i][j]; j++)
-			{
-				cc++;
-				if ((environ[i][j + 1]) && (environ[i][j + 1] == ':'))
-				{
-					ps = malloc(cc + 1), k = 0;
-					for (; a <= j; a++)
-						ps[k++] = environ[i][a]; /* copy the directories */
-					ps[k] = '\0', p_array[pc++] = ps, j++, a++, cc = 0;
-				}
-			}
-		*pcp = pc; /* number of directories */
-		return (p_array); /* the final array */
+		i++;
+	}
+	i--;
+	if (!p_found)
+		return (NULL);
+	for (j = 5; environ[i][j]; j++)
+		pc = ((environ[i][j] == ':') ? pc + 1 : pc); /* number of directories */
+	p_array = malloc(sizeof(char *) * pc), a = 5, pc = 0;
+	if (!p_array)
+		return (NULL);
+	for (j = 5; environ[i][j]; j++)
+	{
+		cc++;
+		if ((environ[i][j + 1]) && (environ[i][j + 1] == ':'))
+		{
+			ps = malloc(cc + 1), k = 0;
+			for (; a <= j; a++)
+				ps[k++] = environ[i][a]; /* copy the directories */
+		ps[k] = '\0', p_array[pc++] = ps, j++, a++, cc = 0;
+		}
+	}
+	*pcp = pc; /* number of directories */
+	return (p_array); /* the final array */
 }
 
 /**
@@ -77,7 +76,7 @@ void free_exit(char **paths, int *pcp)
 	{
 		if (paths[x])
 			free(paths[x]);
-        }
+	}
 	free(paths);
 }
 
@@ -89,14 +88,13 @@ void free_exit(char **paths, int *pcp)
  *
  * Return: always 0
  */
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, char **argv)
 {
-	int i, aux_exit = 0, *stat = &aux_exit, pc, *pcp = &pc, ac, *acp = &ac, interactive = 1;
-	char **paths, **args, *input = NULL, *exec_path;
+	int i, aux_exit = 0, *stat = &aux_exit;
+	int pc = 0, *pcp = &pc, ac = 0, *acp = &ac, interactive = 1;
+	char **paths, **args = NULL, *input = NULL, *exec_path = NULL;
 	size_t len = 0;
-	extern char **environ;
 
-	(void) argc;
 	paths = init(pcp);		/* save paths in variable */
 	while (interactive)
 	{
@@ -111,33 +109,29 @@ int main(int argc, char **argv)
 		if (input[0] == '\n')
 			continue;
 		for (i = 0; input[i]; i++)
-			;/*input[i] = ((input[i] == '\n') ? '\0' : input[i]);*/		/* trim trailing '\n' */
+			;
 		input[i - 1] = '\0'; /* coloco NULL en el final */
 		if (_strcmp(input, "exit") == 0)	/* check for exit */
 		{
 			free(input);
 			break;
-		}
-		if (_strcmp(input, "env") == 0)		/* check for env command */
+		} else if (_strcmp(input, "env") == 0) 
 		{
-			env_reader();
-			free(input);
+			env_reader(), free(input);
 			continue;
 		}
 		args = args_isolator(input, acp);       /* tokenize arguments to array */
-                if (!args[0])
-                {
-                        free(args);
-                        free(input);
-                        continue;
-                }
+		if (!args[0])
+		{
+			free(args), free(input);
+			continue;
+		}
 		exec_path = check_existance(paths, args[0], argv[0], pcp, stat);
-                if (exec_path)
+		if (exec_path)
 			aux_exit = function_caller(exec_path, args), free(exec_path);
-                free(args);
-		free(input);
+		free(args), free(input);
 	}
 	if (paths)
 		free_exit(paths, pcp);
-	exit (aux_exit);
+	exit(aux_exit);
 }
