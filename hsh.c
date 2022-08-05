@@ -115,7 +115,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 		{
 			free(input);
 			break;
-		} else if (_strcmp(input, "env") == 0) 
+		} else if (_strcmp(input, "env") == 0)
 		{
 			env_reader(), free(input);
 			continue;
