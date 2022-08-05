@@ -25,7 +25,7 @@ int _strcmp(char *s1, char *s2)
 char **init(int *pcp)
 {
 	int i = 0, j = 0, k = 0, p_found = 0, pc = 0, a = 0, cc = 0;
-	char *p = "PATH", **p_array, *ps;
+	char *p = "PATH=", **p_array, *ps;
 
 	while (!p_found && environ[i]) /* find PATH inside of env */
 	{
@@ -115,7 +115,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 		{
 			free(input);
 			break;
-		} else if (_strcmp(input, "env") == 0) 
+		} else if (_strcmp(input, "env") == 0)
 		{
 			env_reader(), free(input);
 			continue;
