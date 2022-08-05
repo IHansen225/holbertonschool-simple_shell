@@ -59,32 +59,32 @@ char *dir_generator(char *s1, char *s2)
  * check_existance - this function check if name
  * it's a valid command.
  * @paths: are the paths of the PATH variable.
- * @name: is the command.
- * @programname: is the name of the program.
+ * @nm: is the command.
+ * @pgn: is the name of the program.
  * @pcp: it's a pointer to the path's number.
  * @stat: is the stat of exit.
  *
  * Return: a string with the full command path, or NULL
  * if name it's a invalid command.
  */
-char *check_existance(char *paths[], char *name, char *programname, int *pcp, int *stat)
+char *check_existance(char *paths[], char *nm, char *pgn, int *pcp, int *stat)
 {
 	char *dir_buf = NULL;
 	int flag = 0, i = 0, j = 0;
 
-	if (access(name, F_OK) == 0) /* if name it's a full path */
+	if (access(nm, F_OK) == 0) /* if name it's a full path */
 	{
-		while (name[++i])
+		while (nm[++i])
 			;
 		dir_buf = malloc(i + 1);
-		for (i = 0; name[i]; i++)
-			dir_buf[i] = name[i];
+		for (i = 0; nm[i]; i++)
+			dir_buf[i] = nm[i];
 		dir_buf[i] = '\0';
 		return (dir_buf);
 	}
-	while (((!flag) && (i < *pcp)) || (paths != NULL))
+	while (((!flag) && (i < *pcp)) && (paths != NULL))
 	{
-		dir_buf = dir_generator(paths[i++], name);
+		dir_buf = dir_generator(paths[i++], nm);
 		flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* flag changes when match */
 		if (!flag)
 			free(dir_buf); /* free the memory if not a match */
@@ -93,15 +93,15 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
 	{
 		i = 0;
 		*stat = 127;
-		while (programname[i++])
+		while (pgn[i++])
 			;
 		i--;
-		write(2, programname, i);
+		write(2, pgn, i);
 		write(2, ": 1: ", 5);
-		while (name[j++])
+		while (nm[j++])
 			;
 		j--;
-		write(2, name, j);
+		write(2, nm, j);
 		write(2, ": not found", 11); /* cambiar por 11 */
 		write(2, "\n", 1);
 		return (NULL);
