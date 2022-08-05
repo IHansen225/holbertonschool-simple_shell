@@ -80,6 +80,21 @@ void free_exit(char **paths, int *pcp)
 	free(paths);
 }
 
+int b_ins(char *input)
+{
+	if (_strcmp(input, "exit") == 0)
+	{
+		free(input);
+		return (0);
+	}
+	else if (_strcmp(input, "env") == 0)
+	{
+		env_reader();
+		free(input);
+		return (1);
+	}
+}
+
 /**
  * main - simple shell main function. Calls for execution in case of valid path
  *
@@ -111,15 +126,10 @@ int main(__attribute__((unused)) int argc, char **argv)
 		for (i = 0; input[i]; i++)
 			;
 		input[i - 1] = '\0'; /* coloco NULL en el final */
-		if (_strcmp(input, "exit") == 0)	/* check for exit */
-		{
-			free(input);
+		if (b_ins(input) == 0)	/* check for exit */
 			break;
-		} else if (_strcmp(input, "env") == 0)
-		{
-			env_reader(), free(input);
+		else if (b_ins(input) == 1)
 			continue;
-		}
 		args = args_isolator(input, acp);       /* tokenize arguments to array */
 		if (!args[0])
 		{

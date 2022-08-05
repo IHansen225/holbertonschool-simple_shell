@@ -82,7 +82,7 @@ char *check_existance(char *paths[], char *name, char *programname, int *pcp, in
 		dir_buf[i] = '\0';
 		return (dir_buf);
 	}
-	while (((!flag) && (i < *pcp)) || (paths != NULL))
+	while (((!flag) && (i < *pcp)) && (paths != NULL))
 	{
 		dir_buf = dir_generator(paths[i++], name);
 		flag = ((access(dir_buf, F_OK) == 0) ? 1 : 0); /* flag changes when match */
