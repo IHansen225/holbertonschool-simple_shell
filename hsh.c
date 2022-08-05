@@ -80,6 +80,13 @@ void free_exit(char **paths, int *pcp)
 	free(paths);
 }
 
+/**
+ * b_ins - check for built-in
+ *
+ * @input: is the user input.
+ *
+ * Return: always void.
+ */
 int b_ins(char *input)
 {
 	if (_strcmp(input, "exit") == 0)
