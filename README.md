@@ -44,9 +44,9 @@ the following line:
 
 <h3>Examples</h3>
 <hr>
-<img src="https://imgur.com/ZRfbghj">
-<img src="https://imgur.com/QiSWNnn">
-<img src="https://imgur.com/vOkoVGR">
+<img src="https://i.imgur.com/ZRfbghj.png">
+<img src="https://i.imgur.com/QiSWNnn.png">
+<img src="https://i.imgur.com/vOkoVGR.png">
 
 <h3>Authors</h3>
 <hr>
